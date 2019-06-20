@@ -9,4 +9,5 @@ public interface Constant {
 	String OrderByBrowsesDesc = "BROWSES DESC";
 	String OrderByCommentsDesc = "COMMENTS DESC";
 	String OrderByScoreDesc = "SCORE DESC";
+	String USER_TOKEN = "token";
 }

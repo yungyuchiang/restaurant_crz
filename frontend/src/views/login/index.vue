@@ -51,6 +51,8 @@
 import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 import Particles from '@/components/Particles/index'
+import axios from 'axios'
+
 export default {
   name: 'Login',
   components: { LangSelect,Particles},
@@ -63,8 +65,8 @@ export default {
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+      if (value.length < 5) {
+        callback(new Error('The password can not be less than 5 digits'))
       } else {
         callback()
       }
@@ -72,7 +74,7 @@ export default {
     return {
       loginForm: {
         username: 'admin',
-        password: '123456'
+        password: 'admin'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -108,13 +110,22 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true
-          this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
-            this.loading = false
-            this.$router.push({ path: this.redirect || '/' })
-          }).catch(() => {
-            this.loading = false
+          axios.post('http://localhost:8081/user/login', {
+            userName: this.loginForm.username,
+            password: this.loginForm.password
+          }).then(response => {
+            console.log(response)
+          }).catch(err => {
+            console.log(err)
           })
+
+          // this.loading = true
+          // this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
+          //   this.loading = false
+          //   this.$router.push({ path: this.redirect || '/' })
+          // }).catch(() => {
+          //   this.loading = false
+          // })
         } else {
         //   console.log('error submit!!')
           return false

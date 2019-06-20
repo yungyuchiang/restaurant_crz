@@ -1,5 +1,6 @@
 package com.jesper.controller;
 
+import com.jesper.token.AuthIgnore;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
     @RequestMapping("/")
+    @AuthIgnore
     public String index() {
         return "index";
     }

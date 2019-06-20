@@ -6,6 +6,8 @@ import com.jesper.mapper.UserMapper;
 import com.jesper.model.ResultSet;
 import com.jesper.model.User;
 
+import com.jesper.token.AuthIgnore;
+import com.jesper.token.TokenManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -13,9 +15,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.Date;
@@ -23,11 +23,14 @@ import java.util.Date;
 /**
  * 用户管理
  */
-@Controller
+@RestController
 public class UserController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private TokenManager tokenManager;
 
     @Autowired
     private HttpSession httpSession;
@@ -58,13 +61,15 @@ public class UserController {
      * @return
      */
     @PostMapping("/user/login")
-    @ResponseBody
-    public ResultSet loginPost(User user) {
+    @AuthIgnore
+    public ResultSet loginPost(@RequestBody User user) {
         User user1 = userMapper.selectByNameAndPwd(user);
         if (user1 != null) {
             httpSession.setAttribute("user", user1);
             User name = (User) httpSession.getAttribute("user");
-            return ResultSet.Success("登录成功!");
+
+            String token = tokenManager.getToken(user);
+            return ResultSet.Success_Login(token);
         } else {
             return ResultSet.Failure("用户名或密码错误，请重新登录！");
         }
