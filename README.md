@@ -4,7 +4,7 @@
 - 使用maven进行项目构建 
 - 使用Springboot+Mybatis搭建整个系统 
 - 使用vue + vue-router + vuex 搭建前端界面
-- 使用框架element开发前端界面  
+- 使用框架element-admin 简化版开发前端界面  
 - 使用MySQL和MongoDB分别存储数据和图片
 - 使用Redis缓存来提升数据库查询性能
 
