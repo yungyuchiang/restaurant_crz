@@ -12,26 +12,26 @@ public class ResultSet implements Serializable {
 
     private String code;
 
-    private String messge;
+    private String message;
 
     private Object obj;
 
-    public ResultSet(String code, String messge, Object obj) {
+    public ResultSet(String code, String message, Object obj) {
         this.code = code;
-        this.messge = messge;
+        this.message = message;
         this.obj = obj;
     }
 
-    public static ResultSet Success (String messge) {
-        return new ResultSet(RS_SUCCESS, messge, null);
+    public static ResultSet Success (String message) {
+        return new ResultSet(RS_SUCCESS, message, null);
     }
 
-    public static ResultSet Failure (String messge) {
-        return new ResultSet(RS_FAILURE, messge, null);
+    public static ResultSet Failure (String message) {
+        return new ResultSet(RS_FAILURE, message, null);
     }
 
-    public static ResultSet Failure_Auth (String messge) {
-        return new ResultSet(RS_FAILURE_AUTH, messge, null);
+    public static ResultSet Failure_Auth (String message) {
+        return new ResultSet(RS_FAILURE_AUTH, message, null);
     }
 
     public static ResultSet Success_Login (String token) {
@@ -46,12 +46,12 @@ public class ResultSet implements Serializable {
         this.code = code;
     }
 
-    public String getMessge() {
-        return messge;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMessge(String messge) {
-        this.messge = messge;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Object getObj() {
@@ -66,7 +66,7 @@ public class ResultSet implements Serializable {
     public String toString() {
         return "ResultSet{" +
                 "code='" + code + '\'' +
-                ", messge='" + messge + '\'' +
+                ", messge='" + message + '\'' +
                 ", obj=" + obj +
                 '}';
     }

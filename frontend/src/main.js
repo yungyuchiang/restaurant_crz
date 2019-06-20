@@ -15,6 +15,11 @@ import './errorLog' // error log
 import './permission' // permission control
 import './mock' // simulation data
 
+import http from '@/api/http'
+for (let key in http) {
+  Vue.prototype[key] = http[key]
+}
+
 
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size

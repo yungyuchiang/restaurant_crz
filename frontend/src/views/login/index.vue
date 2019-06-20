@@ -110,13 +110,30 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          axios.post('http://localhost:8081/user/login', {
+          this.postAjax('/user/login', {
             userName: this.loginForm.username,
             password: this.loginForm.password
-          }).then(response => {
-            console.log(response)
-          }).catch(err => {
-            console.log(err)
+          }, res => { // 登录成功
+            console.log('res: ', res)
+            this.loading = false
+            if(res.code === '0000') {
+              console.log(res.obj)
+              axios.defaults.headers.common["token"] = res.obj;
+              if (localStorage.getItem("TOKEN")) {
+                localStorage.removeItem("TOKEN");
+              }
+              localStorage.setItem("TOKEN", res.obj);
+
+              // 跳转到登录界面
+              this.$router.push({ path: this.redirect || '/' })
+            } else {
+              this.$message({
+                message: res.message,
+                type: 'error'
+              })
+            }
+          }, err => {
+
           })
 
           // this.loading = true
@@ -131,6 +148,12 @@ export default {
           return false
         }
       })
+    }
+  },
+  created() {
+    // 每次进入登陆页面 清除token
+    if (localStorage.getItem("TOKEN")) {
+      localStorage.removeItem("TOKEN");
     }
   }
 }
